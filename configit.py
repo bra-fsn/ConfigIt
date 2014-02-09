@@ -4,7 +4,7 @@ import sys
 import warnings
 warnings.simplefilter("always")
 
-__version__ = (0,1,3)
+__version__ = (0,1,4)
 version = '.'.join(map(str,__version__))
 
 try:
@@ -69,6 +69,19 @@ def from_module(module):
 
     return conf_dict
 
+def from_string(content):
+    '''
+    Creates a configuration dictionary from a string.
+
+    :param content: The configuration string.
+    '''
+
+    conf_dict = {}
+
+    exec(compile(content, '<string>', 'exec'), globals(), conf_dict)
+    conf_dict = from_dict(conf_dict)
+
+    return conf_dict
 
 def conf_from_file(filepath):
     warnings.warn("Deprecated. Use configit.from_file", DeprecationWarning)
